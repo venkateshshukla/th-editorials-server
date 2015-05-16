@@ -1,0 +1,5 @@
+cron:
+- description: Feed updates
+  url: /feeds
+  schedule: every 5 mins
+  timezone: Asia/Kolkata
