@@ -29,4 +29,4 @@ For this, follow these steps
 
 And you are done.
 
-Deploy the application to local machine using `devapp_server.py .`
+Deploy the application to local machine using `dev_appserver.py .`
