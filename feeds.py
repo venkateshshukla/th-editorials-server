@@ -1,5 +1,6 @@
 from news_db import News
 from src.news_feed import get_news_feed
+from src.news_text import get_news_text
 from webapp2 import RequestHandler, WSGIApplication
 
 class Feeds(RequestHandler):
@@ -8,6 +9,7 @@ class Feeds(RequestHandler):
 		news_list = get_news_feed()
 		num_stored = 0
 		for n in news_list:
+			n['text'] = get_news_text(n['link'])
 			news = News()
 			if news.add_db_unique(n):
 				num_stored += 1

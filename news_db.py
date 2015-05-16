@@ -19,6 +19,7 @@ class News(ndb.Model):
 		ptime = entry['print_time']
 		link = entry['link']
 		author = entry['author']
+		text = entry['text']
 
 		ky = hashlib.md5(title + ptime).hexdigest()
 		new_key = ndb.Key(News, ky)
@@ -27,7 +28,7 @@ class News(ndb.Model):
 			logging.debug("New news entry found. Adding it to db")
 			dt = datetime.fromtimestamp(mktime(ndate))
 			news = News(title=title, date=dt, link=link,
-					author=author)
+					author=author, text=text)
 			news.key = new_key
 			news.put()
 			return True
