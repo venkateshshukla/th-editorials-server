@@ -7,7 +7,7 @@ class Feeds(RequestHandler):
 		self.response.write('Editorials!')
 		news = get_news_feed()
 		for n in news:
-			self.response.write("\n\n{}\n{}\n{}".format(n[0], n[1],
-				n[2]))
+			self.response.write("\n\n{}\n{}\n{}\n{}".format(n['title']
+				, n['author'], n['print_time'], n['link']))
 
 app = WSGIApplication([ ('/feeds', Feeds), ], debug=True)

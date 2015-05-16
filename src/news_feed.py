@@ -19,7 +19,12 @@ def get_news_feed():
 	news = []
 	for entry in feed['entries']:
 		logging.debug('Extracted item dated ' + str(entry['published']))
-		item = (entry['title'], entry['published'], entry['link'])
+		item = {}
+		item['title'] = entry['title']
+		item['datetime'] = entry['published_parsed']
+		item['link'] = entry['link']
+		item['print_time'] = entry['published']
+		item['author'] = entry['author']
 		news.append(item)
 
 	return news
