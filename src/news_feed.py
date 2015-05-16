@@ -1,9 +1,9 @@
 import feedparser
 import logging
+from constants import AppUrl
 
 def get_news_feed():
-	editorial_url = "http://www.thehindu.com/opinion/editorial/?service=rss"
-	feed = feedparser.parse(editorial_url)
+	feed = feedparser.parse(AppUrl.EDITORIAL)
 	if feed is None:
 		logging.error('RSS Feed is None')
 		return None
