@@ -21,7 +21,8 @@ class News(ndb.Model):
 		author = entry['author']
 		text = entry['text']
 
-		ky = hashlib.md5(title + ptime).hexdigest()
+		ptitle = title.encode('ascii', 'ignore')
+		ky = hashlib.md5(ptitle + ptime).hexdigest()
 		new_key = ndb.Key(News, ky)
 		entry = new_key.get()
 		if entry is None:
