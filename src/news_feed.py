@@ -1,6 +1,7 @@
 import feedparser
 import logging
 from constants import AppUrl
+from unidecode import unidecode
 
 def get_news_feed():
 	feed = feedparser.parse(AppUrl.OPINION)
@@ -25,12 +26,14 @@ def get_news_feed():
 
 	news = []
 	for entry in feed['entries']:
-		logging.debug('Extracted item dated ' + str(entry['published']))
+		title = unidecode(entry['title'])
+		date = entry['published']
+		logging.debug('Extracted item titled {} dated {}'.format(title,	date))
 		item = {}
-		item['title'] = entry['title']
+		item['title'] = title
 		item['datetime'] = entry['published_parsed']
 		item['link'] = entry['link']
-		item['print_time'] = entry['published']
+		item['print_time'] = date
 		item['author'] = entry['author']
 		news.append(item)
 	return news
