@@ -3,7 +3,7 @@ import logging
 from constants import AppUrl
 
 def get_news_feed():
-	feed = feedparser.parse(AppUrl.EDITORIAL)
+	feed = feedparser.parse(AppUrl.OPINION)
 	if feed is None:
 		logging.error('RSS Feed is None')
 		return None
