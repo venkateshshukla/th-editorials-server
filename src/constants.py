@@ -3,3 +3,4 @@ class AppUrl:
 	BASE = "http://www.thehindu.com/"
 	OPINION = BASE + "opinion/?service=rss"
 	EDITORIAL = BASE + "opinion/editorial/?service=rss"
+	RSS_ARGS = "?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication"
