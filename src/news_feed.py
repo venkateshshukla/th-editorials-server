@@ -1,28 +1,25 @@
 import feedparser
 import logging
 from constants import AppUrl
+from errors import ParseError, ConnectionError, InputError
 from unidecode import unidecode
 
 def get_news_feed():
 	feed = feedparser.parse(AppUrl.OPINION)
 	if feed is None:
-		logging.error('RSS Feed is None')
-		return None
+		raise InputError('RSS Feed is None')
 
 	if feed.bozo:
-		logging.error('Bozo bit set. Ill-formed XML encountered.')
-		return None
+		exc = feed.bozo_exception
+		raise ParseError('Bozo bit set. Ill-formed XML : line {} : {}'.format(exc.getLineNumber(), exc.getMessage()))
 
 	if 'status' not in feed:
-		logging.error('No status in extracted feed.')
-		return None
+		raise ParseError('No status in extracted feed.')
 
 	logging.debug('Feed extraction status : ' + str(feed['status']))
 
 	if feed['status'] != 200:
-		logging.error('Failed to extract RSS Feed : error ' +
-				str(feed['status']))
-		return None
+		raise ConnectionError(AppUrl.OPINION, feed['status'])
 
 	news = []
 	for entry in feed['entries']:
