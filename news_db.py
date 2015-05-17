@@ -3,6 +3,7 @@ import logging
 from time import mktime
 from datetime import datetime
 from google.appengine.ext import ndb
+from unidecode import unidecode
 
 class News(ndb.Model):
 	"""Class to store news items in GAE NDB"""
@@ -21,7 +22,7 @@ class News(ndb.Model):
 		author = entry['author']
 		text = entry['text']
 
-		ptitle = title.encode('ascii', 'ignore')
+		ptitle = unidecode(title)
 		ky = hashlib.md5(ptitle + ptime).hexdigest()
 		new_key = ndb.Key(News, ky)
 		entry = new_key.get()
