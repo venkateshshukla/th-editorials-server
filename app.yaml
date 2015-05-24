@@ -6,6 +6,8 @@ threadsafe: true
 handlers:
 - url: /feeds
   script: feeds.app
+- url: /list
+  script: newslist.app
 
 libraries:
 - name: ssl
