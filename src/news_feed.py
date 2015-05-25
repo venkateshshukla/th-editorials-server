@@ -24,15 +24,17 @@ def get_news_feed():
 	news = []
 	for entry in feed['entries']:
 		title = unidecode(entry['title'])
+		author = unidecode(entry['author'])
 		date = entry['published']
 		link = entry['link'].replace(AppUrl.RSS_ARGS, '')
-		logging.debug('Extracted item titled {} dated {}'.format(title,	date))
+		logging.debug('Extracted item titled {} dated {} authored {}'.format(title,
+			date, author))
 		item = {}
 		item['title'] = title
 		item['datetime'] = entry['published_parsed']
 		item['link'] = link
 		item['print_time'] = date
-		item['author'] = entry['author']
+		item['author'] = author
 		news.append(item)
 	logging.debug("Extracted {} news items.".format(len(news)))
 	return news
