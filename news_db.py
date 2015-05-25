@@ -14,24 +14,31 @@ class News(ndb.Model):
 	text = ndb.TextProperty()
 
 	def add_db_unique(self, entry):
-		ndate = entry['datetime']
 		title = entry['title']
-		ptime = entry['print_time']
 		link = entry['link']
 		author = entry['author']
 		text = entry['text']
+		ptime = entry['print_time']
+		ndate = entry['datetime']
+		dt = datetime.fromtimestamp(mktime(ndate))
 
-		ky = hashlib.md5(title + ptime).hexdigest()
+		ky = hashlib.md5(title).hexdigest()
 		new_key = ndb.Key(News, ky)
 		entry = new_key.get()
 		if entry is None:
-			logging.debug("New news entry found. Adding it to db")
-			dt = datetime.fromtimestamp(mktime(ndate))
+			logging.debug("News entry not present. Adding it to db")
 			news = News(title=title, date=dt, link=link,
 					author=author, text=text)
 			news.key = new_key
 			news.put()
 			return True
 		else:
-			logging.debug("News entry already present. Skipping.")
-			return False
+			logging.debug("News entry already present.")
+			if entry.date == dt:
+				logging.debug("News entry has same date. Skipping.")
+				return False
+			else:
+				logging.debug("News entry has new date.	Updating.")
+				entry.date = dt
+				entry.put()
+				return True
