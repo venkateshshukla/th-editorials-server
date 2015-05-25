@@ -83,7 +83,12 @@ def get_news_text(url):
 
 	surl = url.replace(AppUrl.BASE, '')
 	logging.debug("News url recieved : " + surl)
-	r = requests.get(url)
+
+	try:
+		r = requests.get(url)
+	except request.exceptions.ConnectionError:
+		raise ConnectionError(surl, 0)
+
 	if not r.ok:
 		raise ConnectionError(surl , r.status_code)
 
