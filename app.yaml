@@ -8,6 +8,8 @@ handlers:
   script: feeds.app
 - url: /list
   script: newslist.app
+- url: /news
+  script: newstext.app
 
 libraries:
 - name: ssl
