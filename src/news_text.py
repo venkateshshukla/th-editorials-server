@@ -86,7 +86,7 @@ def get_news_text(url):
 
 	try:
 		r = requests.get(url)
-	except request.exceptions.ConnectionError:
+	except requests.exceptions.ConnectionError:
 		raise ConnectionError(surl, 0)
 
 	if not r.ok:

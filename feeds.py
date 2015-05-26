@@ -3,7 +3,7 @@ from news_db import News
 from src.news_feed import get_news_feed
 from src.news_text import get_news_text
 from webapp2 import RequestHandler, WSGIApplication
-from src.errors import ConnectionError, ParseError
+from src.errors import ConnectionError, ParseError, InputError
 
 class Feeds(RequestHandler):
 	def get(self):
