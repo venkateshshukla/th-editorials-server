@@ -17,7 +17,7 @@ class News(ndb.Model):
 	def add_db_unique(self, entry):
 		""" Given an entry dict, add it to ndb. Make sure its unique."""
 		if entry is None:
-			raise InputError("Entry", None, "Entry cannot be None.")
+			raise InputError("Entry", entry, "Entry cannot be None.")
 		title = entry['title']
 		link = entry['link']
 		author = entry['author']
@@ -50,7 +50,7 @@ class News(ndb.Model):
 	def get_entry_key(self, ky):
 		"""For the given key, return the corresponding entry from ndb."""
 		if ky is None:
-			raise InputError("Key", None, "Key cannot be None.")
+			raise InputError("Key", ky, "Key cannot be None.")
 		n_key = ndb.Key(News, ky)
 		entry = n_key.get()
 		if entry is None:

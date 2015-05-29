@@ -7,7 +7,7 @@ from unidecode import unidecode
 def get_news_feed():
 	feed = feedparser.parse(AppUrl.OPINION)
 	if feed is None:
-		raise InputError('RSS Feed is None')
+		raise InputError("RSS feed", feed, "None RSS feed")
 
 	if feed.bozo:
 		exc = feed.bozo_exception

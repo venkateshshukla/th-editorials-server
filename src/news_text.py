@@ -16,7 +16,7 @@ def print_tags(tag):
 def _extract_text(html):
 	"""Given the html file, extract the text from it"""
 	if html is None:
-		raise InputError("HTML is not supposed to be None")
+		raise InputError("HTML", html, "None HTML")
 
 	soup = BeautifulSoup(html)
 
@@ -53,7 +53,7 @@ def _extract_text(html):
 def _extract_text_tag(tag):
 	"""Given BeautifulSoup Tag element, extract the news"""
 	if tag is None:
-		raise InputError("tag cannot be None")
+		raise InputError("Tag", tag, "None tag")
 	accepted_name = [None, 'i', 'b']
 	text = ""
 	for c in tag.children:
@@ -76,7 +76,7 @@ def _extract_text_tag(tag):
 def get_news_text(url):
 	"""Given a url fetch the news html and extract news text."""
 	if url is None:
-		raise InputError("URL", "None", "None object.")
+		raise InputError("URL", url, "None object.")
 
 	if not url.startswith(AppUrl.BASE):
 		raise InputError("Known URL", url, "Unrecongised URL")
