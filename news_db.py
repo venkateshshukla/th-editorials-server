@@ -13,6 +13,7 @@ class News(ndb.Model):
 	link = ndb.StringProperty(required=True)
 	author = ndb.StringProperty()
 	text = ndb.TextProperty()
+	news_type = ndb.StringProperty(required=True)
 
 	def add_db_unique(self, entry):
 		""" Given an entry dict, add it to ndb. Make sure its unique."""
@@ -25,6 +26,7 @@ class News(ndb.Model):
 		ptime = entry['print_time']
 		ndate = entry['datetime']
 		dt = datetime.fromtimestamp(mktime(ndate))
+		typ = entry['type']
 
 		ky = hashlib.md5(title).hexdigest()
 		new_key = ndb.Key(News, ky)
@@ -32,7 +34,7 @@ class News(ndb.Model):
 		if entry is None:
 			logging.debug("News entry not present. Adding it to db")
 			news = News(title=title, date=dt, link=link,
-					author=author, text=text)
+					author=author, text=text, news_type=typ)
 			news.key = new_key
 			news.put()
 			return True
