@@ -32,9 +32,21 @@ class Feeds(RequestHandler):
 			except ConnectionError:
 				logging.exception("Error fetching news link")
 				continue
+			except ParseError:
+				logging.exception("Error parsing news text.")
+				continue
+			except InputError:
+				logging.exception("Input Error")
+				continue
+
 			news = News()
-			if news.add_db_unique(n):
-				num_stored += 1
+			try:
+				if news.add_db_unique(n):
+					num_stored += 1
+			except InputError:
+				logging.exception("Input Error")
+				continue
+
 		self.response.write("Number of editorials stored = " +
 				str(num_stored))
 
