@@ -4,6 +4,18 @@ from constants import AppUrl
 from errors import ParseError, ConnectionError, InputError
 from unidecode import unidecode
 
+
+def get_news_type(url):
+	""" Given the news url, find out the kind of editorial it is"""
+	if url is None:
+		raise InputError("URL", url, "None url")
+	l = url.split('/')
+	if len(l) < 6:
+		raise InputError("Proper URL", url, "The URL seems to be wrong")
+	typ = l[4]
+	logging.debug("Got a news item of type : " + typ)
+	return typ
+
 def get_news_feed():
 	feed = feedparser.parse(AppUrl.OPINION)
 	if feed is None:
@@ -27,6 +39,12 @@ def get_news_feed():
 		author = unidecode(entry['author'])
 		date = entry['published']
 		link = entry['link'].replace(AppUrl.RSS_ARGS, '')
+		try:
+			typ = get_news_type(link)
+		except InputError:
+			logging.exception("InputError is raised.")
+			continue
+
 		logging.debug('Extracted item titled {} dated {} authored {}'.format(title,
 			date, author))
 		item = {}
@@ -35,6 +53,7 @@ def get_news_feed():
 		item['link'] = link
 		item['print_time'] = date
 		item['author'] = author
+		item['type'] = typ
 		news.append(item)
 	logging.debug("Extracted {} news items.".format(len(news)))
 	return news
