@@ -23,7 +23,7 @@ def get_news_feed():
 
 	if feed.bozo:
 		exc = feed.bozo_exception
-		raise ParseError('Bozo bit set. Ill-formed XML : {}'.format(exc.getMessage()))
+		raise ParseError('Bozo bit set. Ill-formed XML.')
 
 	if 'status' not in feed:
 		raise ParseError('No status in extracted feed.')
