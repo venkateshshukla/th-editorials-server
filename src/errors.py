@@ -44,20 +44,6 @@ class InputError(Error):
 		return "Expected {} Given {} : {}".format(self.exp, self.giv,
 				self.msg)
 
-class EntryExistError(Error):
-	"""Raised if an entry already exists in db"""
-	def __init__(self, title):
-		self.title = title
-	def __str__(self):
-		return repr("Entry titled {} already exists in db.".format(self.title))
-
-class EntryDoesntExistError(Error):
-	"""Raised if some entry does not exist in db"""
-	def __init__(self, title):
-		self.title = title
-	def __str__(self):
-		return repr("Entry titled {} does not exist in db.".format(self.title))
-
 class FeedError(Error):
 	"""Raised if any error in dealing with RSS feed"""
 	def __init__(self, msg):
@@ -71,6 +57,13 @@ class LinkError(Error):
 		self.url = url
 	def __str__(self):
 		return repr("The URL seems incorrect : {}".format(self.url))
+
+class ArticleError(Error):
+	"""Raised on any error in Article class."""
+	def __init__(self, msg):
+		self.msg = msg
+	def __str__(self):
+		return repr("Feed error : {}.".format(self.msg))
 
 class OpinionError(Error):
 	"""Raised on any error in Opinion class."""

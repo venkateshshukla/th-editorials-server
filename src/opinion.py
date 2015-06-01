@@ -6,7 +6,7 @@ from google.appengine.ext import ndb
 
 
 from article import Article
-from errors import InputError, EntryExistError, EntryDoesntExistError
+from errors import InputError
 
 class Opinion(Article):
 	"""Class to store opinion articles"""
@@ -46,35 +46,8 @@ class Opinion(Article):
 		entry = ndb_key.get()
 		return entry
 
-	def insert(self):
-		entry = Opinion.fetch(self.title)
-		if entry:
-			raise EntryExistError()
-		else:
-			logging.info("Adding {} to db.".format(self.title))
-			op = OpinionList(author=self.author,
-					date = self.date,
-					kind = self.kind,
-					link = self.link,
-					title = self.title)
-			op.key = ndb_ky
-			op.put()
-	def update(self):
-		entry = Opinion.fetch(self.title)
-		if not entry:
-			raise EntryDoesntExistError()
-		else:
-			logging.info("Updating {}.".format(self.title))
-			entry.author = self.author
-			entry.date = self.date
-			entry.kind = self.kind
-			entry.link = self.link
-			entry.put()
-
 	def add(self):
-		ky = Opinion.gen_key(self.title)
-		ndb_key = ndb.Key(OpinionList, ky)
-		entry = ndb_key.get()
+		entry = Opinion.fetch(self.title)
 		if entry is None:
 			entry = OpinionList()
 			entry.key = ndb_key

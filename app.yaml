@@ -6,8 +6,6 @@ threadsafe: true
 handlers:
 - url: /update
   script: src.update.app
-- url: /list
-  script: src.list.app
 - url: /api
   script: src.api.app
 - url: /extract
