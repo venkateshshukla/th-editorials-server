@@ -1,15 +1,17 @@
-version: alpha-003
+version: devel-0001
 runtime: python27
 api_version: 1
 threadsafe: true
 
 handlers:
-- url: /feeds
-  script: feeds.app
+- url: /update
+  script: src.update.app
 - url: /list
-  script: newslist.app
-- url: /news
-  script: newstext.app
+  script: src.list.app
+- url: /api
+  script: src.api.app
+- url: /extract
+  script: src.extract.app
 
 libraries:
 - name: ssl

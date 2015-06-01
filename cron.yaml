@@ -1,5 +1,5 @@
 cron:
-- description: Feed updates
-  url: /feeds
+- description: Update opinion database
+  url: /update
   schedule: every 5 mins
   timezone: Asia/Kolkata
