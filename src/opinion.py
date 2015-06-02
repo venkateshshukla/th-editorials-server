@@ -14,7 +14,6 @@ class Opinion(Article):
 	def __init__(self, author, date, kind, link, title):
 		Article.__init__(self, author, date, kind, link, title)
 
-
 	@classmethod
 	def fromArticle(cls, article):
 		if not article:
@@ -41,7 +40,7 @@ class Opinion(Article):
 	def fetch(title):
 		if not title:
 			raise InputError("title", title, "Cannot be empty or None.")
-		ky = Opinion.gen_key(self.title)
+		ky = Opinion.gen_key(title)
 		ndb_key = ndb.Key(OpinionList, ky)
 		entry = ndb_key.get()
 		return entry
@@ -50,7 +49,8 @@ class Opinion(Article):
 		entry = Opinion.fetch(self.title)
 		if entry is None:
 			entry = OpinionList()
-			entry.key = ndb_key
+			entry.key = ndb.Key(OpinionList,
+					self.gen_key(self.title))
 		entry.author = self.author
 		entry.date = self.date
 		entry.kind = self.kind
