@@ -2,10 +2,11 @@ import logging
 import feedparser
 from webapp2 import RequestHandler, WSGIApplication
 
+from auth import Auth
 from article import Article
 from opinion import Opinion
 from constants import AppUrl
-from errors import InputError, ParseError, ConnectionError, FeedError, OpinionError
+from errors import AuthError, ConnectionError, FeedError, InputError
 
 def get_feed(url):
 	""" Given url of an RSS feed, fetch feedparser object."""
@@ -43,21 +44,26 @@ def process_feed(feed):
 	return articles
 
 class Update(RequestHandler):
-	def check_auth(self):
-		# Check if the request comes from valid source
-		pass
-	def check_valid(self):
-		# Check if the request is valid
-		pass
-
 	def get(self):
-		self.check_auth()
-		self.check_valid()
-		feed = get_feed(AppUrl.OPINION)
-		articles = process_feed(feed)
-		ins = 0
-		for a in articles:
-			op = Opinion.fromArticle(a)
-			op.add()
+		try:
+			Auth.check_auth(self.request.headers)
+			feed = get_feed(AppUrl.OPINION)
+			articles = process_feed(feed)
+			ins = 0
+			for a in articles:
+				op = Opinion.fromArticle(a)
+				op.add()
+		except AuthError:
+			logging.exception()
+			self.response.set_status(403)
+		except ConnectionError:
+			logging.exception()
+			self.response.set_status(504)
+		except FeedError:
+			logging.exception()
+			self.response.set_status(500)
+		except InputError:
+			logging.exception()
+			self.response.set_status(500)
 
 app = WSGIApplication([ ('/update', Update), ], debug=True)
