@@ -9,5 +9,6 @@ class Auth:
 			raise InputError('headers', headers, 'Cannot be empty or None')
 		hd = dict(headers)
 		logging.debug("Received request.")
-		logging.debug("Host : {}".format(repr(headers['Host'])))
-		logging.debug("User-Agent : {}".format(repr(headers['User-Agent'])))
+		for h in hd:
+			logging.debug("{} : {}".format(repr(h), repr(hd[h])))
+
