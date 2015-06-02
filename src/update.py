@@ -19,7 +19,7 @@ def get_feed(url):
 
 	if feed.bozo:
 		exc = feed.bozo_exception
-		raise FeedError('Bozo bit set. Reason : {}.'.format(exc.reason))
+		raise FeedError('Bozo bit set. Reason : {}.'.format(repr(exc)))
 
 	if 'status' not in feed:
 		raise FeedError('No status in extracted feed.')
