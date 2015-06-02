@@ -71,3 +71,10 @@ class OpinionError(Error):
 		self.msg = msg
 	def __str__(self):
 		return repr("Feed error : {}.".format(self.msg))
+
+class AuthError(Error):
+	"""Raised on unauthorized request"""
+	def __init__(self, reason):
+		self.reason = reason
+	def __str__(self):
+		return repr("Authentication error : {}.".format(self.reason))
