@@ -1,6 +1,8 @@
 import logging
 import hashlib
+import json
 
+from datetime import datetime
 from unidecode import unidecode
 from google.appengine.ext import ndb
 
@@ -45,6 +47,26 @@ class Opinion(Article):
 		entry = ndb_key.get()
 		return entry
 
+	@staticmethod
+	def getJsonListStarting(timestamp):
+		data = {}
+		data['r_timestamp'] = timestamp
+		entries = []
+		date = datetime.fromtimestamp(timestamp)
+		q = OpinionList.get_by_date(date)
+		for o in q:
+			e = {}
+			e['author'] = o.author
+			e['timestamp'] = (o.date - datetime(1970, 1, 1)).total_seconds()
+			e['key'] = o.key.string_id()
+			e['kind'] = o.kind
+			e['title'] = o.title
+			entries.append(e)
+		data['entries'] = entries
+		data['num'] = len(entries)
+		data['u_timestamp'] = e['timestamp']
+		return json.dumps(data)
+
 	def add(self):
 		entry = Opinion.fetch(self.title)
 		if entry is None:
@@ -67,3 +89,7 @@ class OpinionList(ndb.Model):
 	kind = ndb.StringProperty(required=True)
 	link = ndb.StringProperty(required=True)
 	title = ndb.StringProperty(required=True)
+
+	@classmethod
+	def get_by_date(cls, date):
+		return cls.query(cls.date > date).order(cls.date)

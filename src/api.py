@@ -1,9 +1,11 @@
 import logging
 
+from datetime import datetime
 from webapp2 import RequestHandler, WSGIApplication
 
 from auth import Auth
 from errors import AuthError, InvalidRequestError
+from opinion import Opinion
 
 class List(RequestHandler):
 	def check_valid(self):
@@ -13,6 +15,12 @@ class List(RequestHandler):
 		try:
 			Auth.check_auth(self.request.headers)
 			self.check_valid()
+			ts = float(self.request.get('timestamp'))
+			logging.debug("Received timestamp : {}".format(ts))
+			ls = Opinion.getJsonListStarting(ts)
+			self.response.content_type='application/json'
+			self.response.write(ls)
+
 		except AuthError:
 			logging.exception('AuthError')
 			self.response.set_status(403)
