@@ -10,10 +10,10 @@ class Extract(RequestHandler):
 			Auth.check_auth(self.request.headers)
 			self.check_valid()
 		except AuthError:
-			logging.exception()
+			logging.exception('AuthError')
 			self.response.set_status(403)
 		except InvalidRequestError:
-			logging.exception()
+			logging.exception('InvalidRequestError')
 			self.response.set_status(400)
 
 app = WSGIApplication([ ('/extract', Extract), ], debug=True)

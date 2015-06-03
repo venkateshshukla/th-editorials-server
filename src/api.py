@@ -14,10 +14,10 @@ class List(RequestHandler):
 			Auth.check_auth(self.request.headers)
 			self.check_valid()
 		except AuthError:
-			logging.exception()
+			logging.exception('AuthError')
 			self.response.set_status(403)
 		except InvalidRequestError:
-			logging.exception()
+			logging.exception('InvalidRequestError')
 			self.response.set_status(400)
 
 class News(RequestHandler):
@@ -29,10 +29,10 @@ class News(RequestHandler):
 			Auth.check_auth(self.request.headers)
 			self.check_valid()
 		except AuthError:
-			logging.exception()
+			logging.exception('AuthError')
 			self.response.set_status(403)
 		except InvalidRequestError:
-			logging.exception()
+			logging.exception('InvalidRequestError')
 			self.response.set_status(400)
 
 app = WSGIApplication([ ('/api/list', List), ('/api/news', News)], debug=True)

@@ -54,16 +54,16 @@ class Update(RequestHandler):
 				op = Opinion.fromArticle(a)
 				op.add()
 		except AuthError:
-			logging.exception()
+			logging.exception('AuthError')
 			self.response.set_status(403)
 		except ConnectionError:
-			logging.exception()
+			logging.exception('ConnectionError')
 			self.response.set_status(504)
 		except FeedError:
-			logging.exception()
+			logging.exception('Feed Error')
 			self.response.set_status(500)
 		except InputError:
-			logging.exception()
+			logging.exception('InputError')
 			self.response.set_status(500)
 
 app = WSGIApplication([ ('/update', Update), ], debug=True)
