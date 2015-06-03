@@ -78,3 +78,10 @@ class AuthError(Error):
 		self.reason = reason
 	def __str__(self):
 		return repr("Authentication error : {}.".format(self.reason))
+
+class InvalidRequestError(Error):
+	"""Raised on malformed/invalid request"""
+	def __init__(self, reason):
+		self.reason = reason
+	def __str__(self):
+		return repr("Invalid request error : {}.".format(self.reason))
