@@ -7,7 +7,7 @@ handlers:
 - url: /update
   script: src.update.app
   login: admin
-- url: /api
+- url: /api/.*
   script: src.api.app
 - url: /extract
   script: src.extract.app
