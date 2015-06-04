@@ -11,11 +11,12 @@ from constants import AppUrl
 
 class Article:
 	"""Class to store opinion articles"""
-	def __init__(self, author, date, kind, link, title):
+	def __init__(self, author, date, kind, link, pdate, title):
 		self.author =  Article.process(author)
 		self.date = date
 		self.link =  Article.process(link)
 		self.kind =  Article.process(kind)
+		self.print_date = pdate
 		self.title = Article.process(title)
 		self.validate()
 
@@ -27,6 +28,8 @@ class Article:
 			raise InputError("kind", self.kind, "Cannot be empty or None")
 		if not self.link:
 			raise InputError("link", self.link, "Cannot be empty or None")
+		if not self.print_date:
+			raise InputError("print_date", self.print_date, "Cannot be empty or None")
 		if not self.title:
 			raise InputError("title", self.title, "Cannot be empty or None")
 		if self.date is None:
@@ -94,6 +97,7 @@ class Article:
 		title = entry['title']
 		author = entry['author']
 		raw_link = entry['link']
+		print_date = entry['published']
 		date = get_date(entry['published_parsed'])
 
 		try:
@@ -103,4 +107,4 @@ class Article:
 			logging.exception("InputError is raised.")
 			return None
 
-		return cls(author, date, kind, link, title)
+		return cls(author, date, kind, link, print_date, title)

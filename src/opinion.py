@@ -13,8 +13,8 @@ from errors import InputError
 class Opinion(Article):
 	"""Class to store opinion articles"""
 
-	def __init__(self, author, date, kind, link, title):
-		Article.__init__(self, author, date, kind, link, title)
+	def __init__(self, author, date, kind, link, pdate, title):
+		Article.__init__(self, author, date, kind, link, pdate, title)
 
 	@classmethod
 	def fromArticle(cls, article):
@@ -24,6 +24,7 @@ class Opinion(Article):
 				article.date,
 				article.kind,
 				article.link,
+				article.print_date,
 				article.title)
 
 	@staticmethod
@@ -60,6 +61,7 @@ class Opinion(Article):
 			e['timestamp'] = (o.date - datetime(1970, 1, 1)).total_seconds()
 			e['key'] = o.key.string_id()
 			e['kind'] = o.kind
+			e['print_date'] = o.print_date
 			e['title'] = o.title
 			entries.append(e)
 		data['entries'] = entries
@@ -77,6 +79,7 @@ class Opinion(Article):
 		entry.date = self.date
 		entry.kind = self.kind
 		entry.link = self.link
+		entry.print_date = self.print_date
 		entry.title = self.title
 		entry.put()
 
@@ -88,6 +91,7 @@ class OpinionList(ndb.Model):
 	date = ndb.DateTimeProperty(required=True)
 	kind = ndb.StringProperty(required=True)
 	link = ndb.StringProperty(required=True)
+	print_date = ndb.StringProperty(required=True)
 	title = ndb.StringProperty(required=True)
 
 	@classmethod
