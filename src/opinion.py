@@ -50,23 +50,25 @@ class Opinion(Article):
 
 	@staticmethod
 	def getJsonListStarting(timestamp):
-		data = {}
-		data['r_timestamp'] = timestamp
-		entries = []
 		date = datetime.fromtimestamp(timestamp)
 		q = OpinionList.get_by_date(date)
+		uts = timestamp
+		entries = []
 		for o in q:
+			uts = (o.date - datetime(1970, 1, 1)).total_seconds()
 			e = {}
 			e['author'] = o.author
-			e['timestamp'] = (o.date - datetime(1970, 1, 1)).total_seconds()
+			e['timestamp'] = uts
 			e['key'] = o.key.string_id()
 			e['kind'] = o.kind
 			e['print_date'] = o.print_date
 			e['title'] = o.title
 			entries.append(e)
+		data = {}
+		data['r_timestamp'] = timestamp
 		data['entries'] = entries
 		data['num'] = len(entries)
-		data['u_timestamp'] = e['timestamp']
+		data['u_timestamp'] = uts
 		return json.dumps(data)
 
 	def add(self):
