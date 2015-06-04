@@ -40,12 +40,12 @@ class News(RequestHandler):
 
 			ky = self.request.get('key')
 			logging.debug('Recieved key : {}'.format(ky))
-			kind, url = Opinion.getKindUrl(ky)
+			kind, link = Opinion.getKindLink(ky)
 			logging.debug('kind for given key : {}'.format(kind))
-			logging.debug('Url for given key : {}'.format(url))
+			logging.debug('Link for given key : {}'.format(link))
 			self.response.content_type='application/json'
-			self.response.write(json.dumps({'url' : url, 'key' :
-				key, 'kind' : kind}))
+			self.response.write(json.dumps({'link' : link, 'key' :
+				ky, 'kind' : kind}))
 
 		except AuthError:
 			logging.exception('AuthError')

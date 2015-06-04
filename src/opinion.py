@@ -73,11 +73,9 @@ class Opinion(Article):
 		return json.dumps(data)
 
 	@staticmethod
-	def getKindUrl(ky):
+	def getKindLink(ky):
 		e = OpinionList.get_by_key(ky)
-		url = AppUrl.OP_BASE + e.kind + e.link
-		logging.debug(url)
-		return e.kind, url
+		return e.kind, e.link
 
 	def add(self):
 		entry = Opinion.fetch(self.title)
