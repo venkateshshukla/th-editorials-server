@@ -1,3 +1,4 @@
+import sys
 import json
 import requests
 from datetime import datetime
@@ -14,7 +15,13 @@ def print_r(d, n=0):
 	else:
 		print d
 
-url = 'http://localhost:8080/api/list'
+if len(sys.argv) == 2:
+	url = sys.argv[1]
+else:
+	url = 'http://localhost:8080/api/list'
+
+print url
+
 now = datetime(2015, 6, 3)
 timestamp = (now - datetime(1970, 1, 1)).total_seconds()
 
