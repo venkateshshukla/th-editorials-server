@@ -20,6 +20,7 @@ class Article:
 		self.validate()
 
 	def validate(self):
+		# Check if the attributes are empty or None
 		if self.author is None:
 			raise InputError("author", self.author, "Cannot be None")
 		if not self.kind:
@@ -35,6 +36,7 @@ class Article:
 
 	@staticmethod
 	def process(stuff):
+		# String whitespaces and transliterate unicode
 		if isinstance(stuff, unicode):
 			return unidecode(stuff).strip()
 		elif isinstance(stuff, str):
@@ -44,6 +46,7 @@ class Article:
 
 	@staticmethod
 	def gen_key(title):
+		# Given the title, generate a unique key of the article
 		if not title:
 			raise InputError("title", title, "Cannot be empty or None.")
 		ky = hashlib.sha1(title).hexdigest()
@@ -52,8 +55,12 @@ class Article:
 
 	@classmethod
 	def fromFeedParserDict(cls, entry):
+		# Given a feedparser.FeedParserDict, create an article
 		if not entry:
 			raise InputError("FeedParserDict", entry, "Cannot be None")
+
+		if not isinstance(entry, feedparser.FeedParserDict):
+			raise InputError("FeedParserDict", entry, "Cannot be anything else.")
 
 		def get_link(raw_link, kind):
 			if not raw_link:
@@ -94,5 +101,6 @@ class Article:
 			link = get_link(raw_link, kind)
 		except InputError:
 			logging.exception("InputError is raised.")
+			return None
 
 		return cls(author, date, kind, link, title)
