@@ -9,6 +9,7 @@ from google.appengine.ext import ndb
 
 from article import Article
 from errors import InputError
+from constants import AppUrl
 
 class Opinion(Article):
 	"""Class to store opinion articles"""
@@ -71,6 +72,13 @@ class Opinion(Article):
 		data['u_timestamp'] = uts
 		return json.dumps(data)
 
+	@staticmethod
+	def getKindUrl(ky):
+		e = OpinionList.get_by_key(ky)
+		url = AppUrl.OP_BASE + e.kind + e.link
+		logging.debug(url)
+		return e.kind, url
+
 	def add(self):
 		entry = Opinion.fetch(self.title)
 		if entry is None:
@@ -99,3 +107,8 @@ class OpinionList(ndb.Model):
 	@classmethod
 	def get_by_date(cls, date):
 		return cls.query(cls.date > date).order(cls.date)
+
+	@classmethod
+	def get_by_key(cls, ky):
+		key = ndb.Key(cls, ky)
+		return key.get()

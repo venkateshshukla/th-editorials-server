@@ -1,4 +1,5 @@
 import logging
+import json
 
 from datetime import datetime
 from webapp2 import RequestHandler, WSGIApplication
@@ -36,6 +37,16 @@ class News(RequestHandler):
 		try:
 			Auth.check_auth(self.request.headers)
 			self.check_valid()
+
+			ky = self.request.get('key')
+			logging.debug('Recieved key : {}'.format(ky))
+			kind, url = Opinion.getKindUrl(ky)
+			logging.debug('kind for given key : {}'.format(kind))
+			logging.debug('Url for given key : {}'.format(url))
+			self.response.content_type='application/json'
+			self.response.write(json.dumps({'url' : url, 'key' :
+				key, 'kind' : kind}))
+
 		except AuthError:
 			logging.exception('AuthError')
 			self.response.set_status(403)
