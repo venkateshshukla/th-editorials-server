@@ -1,7 +1,8 @@
 import sys
 import json
 import requests
-from datetime import datetime
+import logging
+from datetime import datetime, timedelta
 
 def print_r(d, n=0):
 	if isinstance(d, dict):
@@ -15,21 +16,28 @@ def print_r(d, n=0):
 	else:
 		print d
 
-if len(sys.argv) == 2:
-	url = sys.argv[1]
-else:
-	url = 'http://localhost:8080/api/list'
+localhost = 'http://localhost:8080/api/list'
+def post_list(url=localhost, date=(datetime.now()-timedelta(days=1))):
+	logging.debug('URL : {}'.format(url))
+	logging.debug('Starting date : {}'.format(date))
+	timestamp = (date - datetime(1970, 1, 1)).total_seconds()
 
-print url
+	data = {}
+	data['timestamp'] = timestamp
 
-now = datetime(2015, 6, 3)
-timestamp = (now - datetime(1970, 1, 1)).total_seconds()
+	r = requests.post(url, params=data)
+	logging.debug('Response status : {}'.format(r.status_code))
 
-data = {}
-data['timestamp'] = timestamp
+	j = json.loads(r.content)
+	return j
 
-r = requests.post(url, params=data)
-print r.status_code
-
-j = json.loads(r.content)
-print_r(j)
+if __name__ == '__main__':
+	logging.basicConfig(level=logging.DEBUG)
+	if len(sys.argv) == 2:
+		url = sys.argv[1]
+	else:
+		url = localhost
+	today = (datetime.now() - timedelta(days=1)).replace(hour=0, minute=0,
+			second=0)
+	j = post_list(url, today)
+	print_r(j)
