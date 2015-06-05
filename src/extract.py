@@ -51,19 +51,6 @@ def clean_copy(inp, out, soup):
                         out.append(new)
         return
 
-def get_cartoon(html):
-	"""
-	Given html containing cartoon, return its src link
-	"""
-	soup = BeautifulSoup(html)
-	img = soup.find('img', {'class' : 'main-image'})
-	logging.debug(unicode(img))
-
-	new_soup = BeautifulSoup('')
-	img_tag = new_soup.new_tag('img', src=img['src'].replace(AppUrl.BASE, ''))
-	new_soup.append(img_tag)
-	return str(new_soup)
-
 def get_article(html):
 	"""
 	Given the html containing News article, get the news snippet.
@@ -74,24 +61,13 @@ def get_article(html):
 	clean_copy(at, out, out)
 	return unicode(out).strip()
 
-# Probably useful later on, in case different opinion articles have different
-# formats. Right now, it looks like an overkill.
-get_div = {
-	Kind.COLUMNS		:	get_article,
-	Kind.EDITORIAL		:	get_article,
-	Kind.INTERVIEW		:	get_article,
-	Kind.LEAD		:	get_article,
-	Kind.OP_ED		:	get_article,
-	Kind.OPEN_PAGE		:	get_article,
-}
-
 def get_snippet(kind, html):
 	""" Given the kind and the html, get the snippet containing the news"""
 	if not html:
 		raise InputError('html page', html, 'Cannot be empty or None')
 	if kind not in get_div:
 		raise UnknownKindError(kind)
-	snp = get_div[kind](html)
+	snp = get_article(html)
 	return snp
 
 class Extract:
