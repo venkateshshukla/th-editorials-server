@@ -56,4 +56,8 @@ docs/_build/
 # PyBuilder
 target/
 
+# HTML files generated during testing
 *.html
+
+# vim swap files
+*.swp

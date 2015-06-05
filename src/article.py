@@ -6,8 +6,8 @@ import time
 from unidecode import unidecode
 from datetime import datetime
 
+from constants import AppUrl, Kind
 from errors import InputError, LinkError
-from constants import AppUrl
 
 class Article:
 	"""Class to store opinion articles"""
@@ -103,8 +103,12 @@ class Article:
 		try:
 			kind = get_kind(raw_link)
 			link = get_link(raw_link, kind)
+
 		except InputError:
 			logging.exception("InputError is raised.")
 			return None
 
-		return cls(author, date, kind, link, print_date, title)
+		if kind not in Kind.SUPPORTED:
+			return None
+		else:
+			return cls(author, date, kind, link, print_date, title)
