@@ -1,3 +1,5 @@
+from constants import AppUrl
+
 class Error(Exception):
 	"""Base class for exceptions in this module."""
 	pass
@@ -10,7 +12,7 @@ class ConnectionError(Error):
 		status -- The response status returned
 	"""
 	def __init__(self, url, status):
-		self.url = url
+		self.url = url.replace(AppUrl.OP_BASE, '')
 		self.status = status
 
 	def __str__(self):
@@ -85,3 +87,10 @@ class InvalidRequestError(Error):
 		self.reason = reason
 	def __str__(self):
 		return repr("Invalid request error : {}.".format(self.reason))
+
+class UnknownKindError(Error):
+	"""Raised on encountering unknown kind during extraction"""
+	def __init__(self, kind):
+		self.kind = kind
+	def __str__(self):
+		return repr("Encountered unknown kind of article : {}.".format(self.kind))
