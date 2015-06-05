@@ -8,17 +8,19 @@ class AppUrl:
 	RSS_ARGS = "?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication"
 
 class Kind:
-	#BLOGS		=	'blogs'
-	#CARTOON	=	'cartoon'
+	BLOGS		=	'blogs'
+	CARTOON		=	'cartoon'
 	COLUMNS		=	'columns'
 	EDITORIAL	=	'editorial'
 	INTERVIEW	=	'interview'
 	LEAD		=	'lead'
-	#LETTERS	=	'letters'
+	LETTERS		=	'letters'
 	OP_ED		=	'op-ed'
 	OPEN_PAGE	=	'open-page'
-	#READERS_ED	=	'Readers-Editor'
-	#SUNDAY_ANCHOR	=	'sunday-anchor'
+	READERS_ED	=	'Readers-Editor'
+	SUNDAY_ANCHOR	=	'sunday-anchor'
+	SUPPORTED	=	[COLUMNS, EDITORIAL, INTERVIEW, LEAD, OP_ED,
+			OPEN_PAGE]
 
 class Tags:
 	accepted = ['a', 'b', 'i', 'p']
