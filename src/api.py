@@ -1,11 +1,12 @@
-import logging
 import json
+import logging
 
 from datetime import datetime
 from webapp2 import RequestHandler, WSGIApplication
 
 from auth import Auth
 from errors import AuthError, InvalidRequestError
+from extract import Extract
 from opinion import Opinion
 
 class List(RequestHandler):
@@ -43,9 +44,13 @@ class News(RequestHandler):
 			kind, link = Opinion.getKindLink(ky)
 			logging.debug('kind for given key : {}'.format(kind))
 			logging.debug('Link for given key : {}'.format(link))
+			snp = Extract.getHtmLsNIPPET(kind, link)
 			self.response.content_type='application/json'
-			self.response.write(json.dumps({'link' : link, 'key' :
-				ky, 'kind' : kind}))
+			data = {}
+			data['snippet'] = snp
+			data['key'] = ky
+			data['kind'] = kind
+			self.response.write(json.dumps(data))
 
 		except AuthError:
 			logging.exception('AuthError')
