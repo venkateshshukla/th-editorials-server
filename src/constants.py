@@ -19,8 +19,8 @@ class Kind:
 	OPEN_PAGE	=	'open-page'
 	READERS_ED	=	'Readers-Editor'
 	SUNDAY_ANCHOR	=	'sunday-anchor'
-	SUPPORTED	=	[COLUMNS, EDITORIAL, INTERVIEW, LEAD, OP_ED,
-			OPEN_PAGE]
+	SUPPORTED	=	[BLOGS, COLUMNS, EDITORIAL, INTERVIEW, LEAD,
+			LETTERS, OP_ED, OPEN_PAGE, SUNDAY_ANCHOR]
 
 class Tags:
 	accepted = ['a', 'b', 'i', 'p']
