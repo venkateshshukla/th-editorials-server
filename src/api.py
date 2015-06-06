@@ -44,7 +44,7 @@ class News(RequestHandler):
 			kind, link = Opinion.getKindLink(ky)
 			logging.debug('kind for given key : {}'.format(kind))
 			logging.debug('Link for given key : {}'.format(link))
-			snp = Extract.getHtmLsNIPPET(kind, link)
+			snp = Extract.getHtmlSnippet(kind, link)
 			self.response.content_type='application/json'
 			data = {}
 			data['snippet'] = snp
