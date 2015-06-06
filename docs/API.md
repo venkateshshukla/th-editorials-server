@@ -15,3 +15,13 @@ Each `article` have the following keys
 2. `kind`	the kind of article being sent. opinion/letter/op-ed etc.
 3. `timestamp`	the timestamp of the article being sent
 4. `title`	the title of the article
+
+### Request to api/news
+
+A `POST` request to `api/news` with a `key` attribute of required article
+(obtained from a request to `api/list`) would be replied with a `JSON`
+consisting of the following
+
+1. `key`	The key of the article sent in the request
+2. `kind`	The kind of the article
+3. `snippet`	The html snippet of the article
