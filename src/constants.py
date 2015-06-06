@@ -3,8 +3,6 @@ class AppUrl:
 	BASE = "http://www.thehindu.com/"
 	OP_BASE = BASE + "opinion/"
 	OPINION = OP_BASE + "?service=rss"
-	EDITORIAL = OP_BASE + "editorial/?service=rss"
-	SAMPLE = BASE +	"op-ed/a-super-visit-in-the-season-of-hope/article7214799.ece"
 	RSS_ARGS = "?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication"
 
 class Kind:
@@ -21,6 +19,19 @@ class Kind:
 	SUNDAY_ANCHOR	=	'sunday-anchor'
 	SUPPORTED	=	[BLOGS, COLUMNS, EDITORIAL, INTERVIEW, LEAD,
 			LETTERS, OP_ED, OPEN_PAGE, SUNDAY_ANCHOR]
+
+class SampleUrl:
+	BLOGS		=	'/blog-free-for-all/article7180752.ece'
+	CARTOON		=	'/article7282991.ece'
+	COLUMNS		=	'/manipur-waiting-to-happen/article7286731.ece'
+	EDITORIAL	=	'/monsoon-deficiency-and-its-impact/article7286670.ece'
+	INTERVIEW	=	'/interview-with-ashraf-ghani/article7154935.ece'
+	LEAD		=	'/on-narendra-modis-visit-to-china/article7286675.ece'
+	LETTERS		=	'/a-year-hence/article7286826.ece'
+	OP_ED		=	'/who-rules-cyberspace/article7286747.ece'
+	OPEN_PAGE	=	'/dialysis-and-the-good-life/article7271883.ece'
+	READERS_ED	=	'/readers-editor-column-when-i-is-not-about-myself/article7268426.ece'
+	SUNDAY_ANCHOR	=	'/fall-in-allocations/article7265269.ece'
 
 class Tags:
 	accepted = ['a', 'b', 'i', 'p']

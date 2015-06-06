@@ -20,5 +20,6 @@ entries = resp['entries']
 for e in entries:
 	key = e['key']
 	j = post_news(key)
-	print ''
+	print '=' * 80
 	print_r(j)
+	print '=' * 80
