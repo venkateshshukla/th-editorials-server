@@ -12,17 +12,34 @@ from opinion import Opinion
 
 class List(RequestHandler):
 	def check_valid(self):
-		pass
+		if False:
+			raise InvalidRequestError('Reason')
 
 	def post(self):
+		self.response.content_type='application/json'
+		data = {}
 		try:
 			Auth.check_auth(self.request.headers)
 			self.check_valid()
 			ts = float(self.request.get('timestamp'))
 			logging.debug("Received timestamp : {}".format(ts))
-			ls = Opinion.getJsonListStarting(ts)
-			self.response.content_type='application/json'
-			self.response.write(ls)
+
+			articles = Opinion.getArticlesAfter(ts)
+			entries = []
+			for a in articles:
+				uts = (a.date - datetime(1970, 1, 1)).total_seconds()
+				e = {}
+				e['author'] = a.author
+				e['timestamp'] = uts
+				e['key'] = a.key
+				e['kind'] = a.kind
+				e['print_date'] = a.print_date
+				e['title'] = a.title
+				entries.append(e)
+			data['r_timestamp'] = ts
+			data['entries'] = entries
+			data['num'] = len(entries)
+			data['u_timestamp'] = uts
 
 		except AuthError:
 			logging.exception('AuthError')
@@ -30,6 +47,8 @@ class List(RequestHandler):
 		except InvalidRequestError:
 			logging.exception('InvalidRequestError')
 			self.response.set_status(400)
+
+		self.response.write(json.dumps(data))
 
 class News(RequestHandler):
 	def check_valid(self):
