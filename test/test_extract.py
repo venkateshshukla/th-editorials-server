@@ -4,17 +4,17 @@ import logging
 
 sys.path.insert(0, os.path.abspath(".."))
 from src.extract import Extract
-from src.constants import Kind
+from src.constants import Kind, SampleUrl
 
 logging.basicConfig(level=logging.DEBUG)
 
 articles = [
-	(Kind.COLUMNS		,	Sample.COLUMNS),
-	(Kind.EDITORIAL		,	Sample.EDITORIAL),
-	(Kind.INTERVIEW		,	Sample.INTERVIEW),
-	(Kind.LEAD		,	Sample.LEAD),
-	(Kind.OP_ED		,	Sample.OP_ED),
-	(Kind.OPEN_PAGE		,	Sample.OPEN_PAGE),
+	(Kind.COLUMNS		,	SampleUrl.COLUMNS),
+	(Kind.EDITORIAL		,	SampleUrl.EDITORIAL),
+	(Kind.INTERVIEW		,	SampleUrl.INTERVIEW),
+	(Kind.LEAD		,	SampleUrl.LEAD),
+	(Kind.OP_ED		,	SampleUrl.OP_ED),
+	(Kind.OPEN_PAGE		,	SampleUrl.OPEN_PAGE),
 	]
 
 for a in articles:

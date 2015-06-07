@@ -35,7 +35,7 @@ def clean_copy(inp, out, soup):
 			s = unidecode(unicode(child.string))
                         new = soup.new_string(s)
                 elif type(child) is Tag:
-                        if child.name in Tags.accepted:
+                        if child.name in Tags.ACCEPTED:
                                 if child.name == 'a':
 					s = unidecode(unicode(child.string))
                                         new = soup.new_string(s)

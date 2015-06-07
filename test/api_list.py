@@ -17,7 +17,9 @@ def print_r(d, n=0):
 		print d
 
 localhost = 'http://localhost:8080/api/list'
-def post_list(url=localhost, date=(datetime.now()-timedelta(days=1))):
+today = (datetime.now() - timedelta(days=1)).replace(hour=0, minute=0, second=0)
+
+def post_list(url=localhost, date=today):
 	logging.debug('URL : {}'.format(url))
 	logging.debug('Starting date : {}'.format(date))
 	timestamp = (date - datetime(1970, 1, 1)).total_seconds()
@@ -37,7 +39,5 @@ if __name__ == '__main__':
 		url = sys.argv[1]
 	else:
 		url = localhost
-	today = (datetime.now() - timedelta(days=1)).replace(hour=0, minute=0,
-			second=0)
 	j = post_list(url, today)
 	print_r(j)
