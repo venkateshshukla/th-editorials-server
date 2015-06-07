@@ -65,8 +65,6 @@ def get_snippet(kind, html):
 	""" Given the kind and the html, get the snippet containing the news"""
 	if not html:
 		raise InputError('html page', html, 'Cannot be empty or None')
-	if kind not in Kind.SUPPORTED:
-		raise UnknownKindError(kind)
 	snp = get_article(html)
 	return snp
 
@@ -78,6 +76,8 @@ class Extract:
 			raise InputError('kind', kind, 'Cannot be empty or None')
 		if not link:
 			raise InputError('url', url, 'Cannot be empty or None')
+		if kind not in Kind.SUPPORTED:
+			raise UnknownKindError(kind)
 		logging.debug('kind : {}'.format(kind))
 		logging.debug('link : {}'.format(link))
 		url = AppUrl.OP_BASE + kind + link

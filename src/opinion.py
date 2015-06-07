@@ -8,7 +8,7 @@ from google.appengine.ext import ndb
 
 
 from article import Article
-from errors import InputError
+from errors import InputError, KeyNotFoundError
 from constants import AppUrl
 
 class Opinion(Article):
@@ -75,7 +75,10 @@ class Opinion(Article):
 	@staticmethod
 	def getKindLink(ky):
 		e = OpinionList.get_by_key(ky)
-		return e.kind, e.link
+		if e:
+			return e.kind, e.link
+		else:
+			raise KeyNotFoundError(ky)
 
 	def add(self):
 		entry = Opinion.fetch(self.title)

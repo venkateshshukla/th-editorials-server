@@ -94,3 +94,10 @@ class UnknownKindError(Error):
 		self.kind = kind
 	def __str__(self):
 		return repr("Encountered unknown kind of article : {}.".format(self.kind))
+
+class KeyNotFoundError(Error):
+	"""Raised on encountering unknown key during extraction"""
+	def __init__(self, key):
+		self.key = key
+	def __str__(self):
+		return repr("Key {} not found in the database.".format(self.key))
