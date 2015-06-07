@@ -3,3 +3,7 @@ cron:
   url: /update
   schedule: every 5 mins
   timezone: Asia/Kolkata
+- description: Delete old Opinions
+  url: /clean
+  schedule: every day 03:00
+  timezone: Asia/Kolkata

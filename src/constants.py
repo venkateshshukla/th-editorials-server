@@ -35,3 +35,7 @@ class SampleUrl:
 
 class Tags:
 	ACCEPTED = ['a', 'b', 'i', 'p']
+
+class Time:
+	EXPIRY = 7
+	SLEEP = 0.5

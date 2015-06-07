@@ -1,5 +1,6 @@
 import logging
 import hashlib
+import time
 
 from datetime import datetime
 from unidecode import unidecode
@@ -7,7 +8,8 @@ from google.appengine.ext import ndb
 
 
 from article import Article
-from errors import InputError, KeyNotFoundError
+from errors import InputError, EmptyDatabaseError, EntryNotFoundError
+from errors import KeyNotFoundError
 from constants import AppUrl
 
 class Opinion(Article):
@@ -15,6 +17,20 @@ class Opinion(Article):
 
 	def __init__(self, author, date, kind, link, pdate, title):
 		Article.__init__(self, author, date, kind, link, pdate, title)
+
+	@staticmethod
+	def deleteOpinionsBefore(timestamp):
+		"""
+		Given a timestamp, return a list of newer articles.
+		"""
+		date = datetime.fromtimestamp(timestamp)
+		query = OpinionList.get_before_date(date)
+		keys = []
+		for q in query:
+			logging.debug('Deleting Opinion dated {} titled {}.'.format(q.date, q.title))
+			keys.append(q.key)
+		ndb.delete_multi(keys)
+		logging.debug('Deleted {} Opinions.'.format(len(keys)))
 
 	@classmethod
 	def fromArticle(cls, article):
@@ -28,12 +44,36 @@ class Opinion(Article):
 				article.title)
 
 	@staticmethod
+	def getFirstArticleDate():
+		"""
+		Find the date of the earliest article present in the datastore.
+		"""
+		article = OpinionList.get_earliest()
+		if not article:
+			raise EmptyDatabaseError()
+		date = article.date
+		logging.debug("Date of the earliest article : {}".format(date))
+		return date
+
+	@staticmethod
+	def getLastArticleDate():
+		"""
+		Find the date of the latest article present in the datastore.
+		"""
+		article = OpinionList.get_latest()
+		while not article:
+			raise EmptyDatabaseError()
+		date = article.date
+		logging.debug("Date of the latest article : {}".format(date))
+		return date
+
+	@staticmethod
 	def getArticlesAfter(timestamp):
 		"""
 		Given a timestamp, return a list of newer articles.
 		"""
 		date = datetime.fromtimestamp(timestamp)
-		query = OpinionList.get_by_date(date)
+		query = OpinionList.get_after_date(date)
 		articles = []
 		for q in query:
 			articles.append(Article(q.author, q.date, q.kind,
@@ -77,10 +117,22 @@ class OpinionList(ndb.Model):
 	title = ndb.StringProperty(required=True)
 
 	@classmethod
-	def get_by_date(cls, date):
+	def get_before_date(cls, date):
+		return cls.query(cls.date < date).order(cls.date)
+
+	@classmethod
+	def get_after_date(cls, date):
 		return cls.query(cls.date > date).order(cls.date)
 
 	@classmethod
 	def get_by_key(cls, ky):
 		key = ndb.Key(cls, ky)
 		return key.get()
+
+	@classmethod
+	def get_latest(cls):
+		return cls.query().order(-cls.date).get()
+
+	@classmethod
+	def get_earliest(cls):
+		return cls.query().order(cls.date).get()

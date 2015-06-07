@@ -9,6 +9,9 @@ handlers:
   login: admin
 - url: /api/.*
   script: src.api.app
+- url: /clean
+  script: src.clean.app
+  login: admin
 
 libraries:
 - name: ssl

@@ -101,3 +101,15 @@ class KeyNotFoundError(Error):
 		self.key = key
 	def __str__(self):
 		return repr("Key {} not found in the database.".format(self.key))
+
+class EntryNotFoundError(Error):
+	"""Raised on when the given entry is not found in database"""
+	def __init__(self, key):
+		self.key = key
+	def __str__(self):
+		return repr("Entry corresponding to {} not found in the database.".format(self.key))
+
+class EmptyDatabaseError(Error):
+	"""Raised if the datastore was found to be empty"""
+	def __str__(self):
+		return repr("The datastore is empty.")
