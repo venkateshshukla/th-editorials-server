@@ -9,6 +9,15 @@ from datetime import datetime
 from constants import AppUrl, Kind
 from errors import InputError, LinkError
 
+def gen_key(title):
+	"""
+	Given the title, generate a unique key of the article
+	"""
+	if not title:
+		raise InputError("title", title, "Cannot be empty or None.")
+	ky = hashlib.sha1(title).hexdigest()
+	return ky
+
 class Article:
 	"""Class to store opinion articles"""
 	def __init__(self, author, date, kind, link, pdate, title):
@@ -18,6 +27,7 @@ class Article:
 		self.kind =  Article.process(kind)
 		self.print_date = pdate
 		self.title = Article.process(title)
+		self.key = gen_key(self.title)
 		self.validate()
 
 	def validate(self):
@@ -46,15 +56,6 @@ class Article:
 			return stuff.strip()
 		else:
 			raise InputError("unicode or str", stuff, "Cannot be anything other than unicode or string.")
-
-	@staticmethod
-	def gen_key(title):
-		# Given the title, generate a unique key of the article
-		if not title:
-			raise InputError("title", title, "Cannot be empty or None.")
-		ky = hashlib.sha1(title).hexdigest()
-		return ky
-
 
 	@classmethod
 	def fromFeedParserDict(cls, entry):

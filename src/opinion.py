@@ -29,27 +29,6 @@ class Opinion(Article):
 				article.title)
 
 	@staticmethod
-	def exists(title):
-		if not title:
-			raise InputError("title", title, "Cannot be empty or None.")
-		ky = Opinion.gen_key(self.title)
-		ndb_key = ndb.Key(OpinionList, ky)
-		entry = ndb_key.get()
-		if entry is None:
-			return False
-		else:
-			return True
-
-	@staticmethod
-	def fetch(title):
-		if not title:
-			raise InputError("title", title, "Cannot be empty or None.")
-		ky = Opinion.gen_key(title)
-		ndb_key = ndb.Key(OpinionList, ky)
-		entry = ndb_key.get()
-		return entry
-
-	@staticmethod
 	def getJsonListStarting(timestamp):
 		date = datetime.fromtimestamp(timestamp)
 		q = OpinionList.get_by_date(date)
@@ -80,12 +59,16 @@ class Opinion(Article):
 		else:
 			raise KeyNotFoundError(ky)
 
+	def fetch(self):
+		ndb_key = ndb.Key(OpinionList, self.key)
+		entry = ndb_key.get()
+		return entry
+
 	def add(self):
-		entry = Opinion.fetch(self.title)
+		entry = self.fetch()
 		if entry is None:
 			entry = OpinionList()
-			entry.key = ndb.Key(OpinionList,
-					self.gen_key(self.title))
+			entry.key = ndb.Key(OpinionList, self.key)
 		entry.author = self.author
 		entry.date = self.date
 		entry.kind = self.kind
