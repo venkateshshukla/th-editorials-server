@@ -9,6 +9,7 @@ from opinion import Opinion
 
 class Clean(RequestHandler):
 	def get(self):
+		fdate = Opinion.getFirstArticleDate()
 		ldate = Opinion.getLastArticleDate()
 		dateback = ldate - timedelta(days=Time.EXPIRY)
 		midnight = dateback.replace(hour=23, minute=59, second=59)
