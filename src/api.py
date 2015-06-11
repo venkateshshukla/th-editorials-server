@@ -5,6 +5,7 @@ from datetime import datetime
 from webapp2 import RequestHandler, WSGIApplication
 
 from auth import Auth
+from constants import Kind
 from errors import AuthError, InputError, ConnectionError
 from errors import InvalidRequestError, KeyNotFoundError, UnknownKindError
 from extract import Extract
@@ -24,18 +25,34 @@ class List(RequestHandler):
 			ts = float(self.request.get('timestamp'))
 			logging.debug("Received timestamp : {}".format(ts))
 
+			kinds = self.request.get('kinds')
+			if kinds:
+				if kinds == 'default':
+					kinds = Kind.DEFAULT
+				elif kinds == 'all':
+					kinds = Kind.SUPPORTED
+				else:
+					for k in kinds:
+						if k not in Kind.SUPPORTED:
+							kinds.remove(k)
+			else:
+				kinds = Kind.DEFAULT
+
 			articles = Opinion.getArticlesAfter(ts)
 			entries = []
+			uts = ts
+			logging.debug(kinds)
 			for a in articles:
-				uts = (a.date - datetime(1970, 1, 1)).total_seconds()
-				e = {}
-				e['author'] = a.author
-				e['timestamp'] = uts
-				e['key'] = a.key
-				e['kind'] = a.kind
-				e['print_date'] = a.print_date
-				e['title'] = a.title
-				entries.append(e)
+				if a.kind in kinds:
+					uts = (a.date - datetime(1970, 1, 1)).total_seconds()
+					e = {}
+					e['author'] = a.author
+					e['timestamp'] = uts
+					e['key'] = a.key
+					e['kind'] = a.kind
+					e['print_date'] = a.print_date
+					e['title'] = a.title
+					entries.append(e)
 			data['r_timestamp'] = ts
 			data['entries'] = entries
 			data['num'] = len(entries)

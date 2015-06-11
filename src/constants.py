@@ -19,6 +19,8 @@ class Kind:
 	SUNDAY_ANCHOR	=	'sunday-anchor'
 	SUPPORTED	=	[BLOGS, COLUMNS, EDITORIAL, INTERVIEW, LEAD,
 			LETTERS, OP_ED, OPEN_PAGE, SUNDAY_ANCHOR]
+        DEFAULT         =	[COLUMNS, EDITORIAL, INTERVIEW, LEAD, OP_ED,
+                        OPEN_PAGE, SUNDAY_ANCHOR]
 
 class SampleUrl:
 	BLOGS		=	'/blog-free-for-all/article7180752.ece'
