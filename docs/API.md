@@ -1,4 +1,4 @@
-### Request to api/list
+### Request to `/api/list`
 
 A `POST` request to `api/list` with a `timestamp` attribute of latest article
 would be replied with a `JSON` consisting of the following
@@ -21,7 +21,37 @@ Each `article` have the following keys
 | 5. | `timestamp`	| the timestamp of the article being sent |
 | 6. | `title`		| the title of the article |
 
-### Request to api/news
+##### Filtering articles based on their kinds
+
+Optionally, the `POST` request might have an attribute `kinds` consisting of a
+list of article kinds that are needed. This would cause filtering of the results
+as per request.
+
+Valid values of `kinds` attribute in `POST` request are as follows:
+
+| `kinds` | Explanation |
+|-------|-------------|
+| 'default' | Articles of kind which are default are chosen. Refer to the table below for default kinds. |
+| 'all' | Articles of all supported kinds are chosen. |
+| a list of strings containing a subset of values present in the table below | Articles of requested supported kinds. |
+
+Comprehensive list of supported kinds of articles are as follows:
+
+| Supported kinds of articles | Default/Non-default |
+|-------------------------------|---------------------|
+| 'blogs' | Non Default |
+| 'cartoon' | Non Default |
+| 'columns' | Default |
+| 'editorial' | Default |
+| 'interview' | Default |
+| 'lead' | Default |
+| 'letters' | Non Default |
+| 'op-ed' | Default |
+| 'open-page' | Default |
+| 'Readers-Editor' | Non Default |
+| 'sunday-anchor' | Default |
+
+### Request to `/api/news`
 
 A `POST` request to `api/news` with a `key` attribute of required article
 (obtained from a request to `api/list`) would be replied with a `JSON`
