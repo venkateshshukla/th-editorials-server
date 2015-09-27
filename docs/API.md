@@ -1,7 +1,8 @@
 ### Request to `/api/list`
 
-A `POST` request to `api/list` with a `timestamp` attribute of latest article
-would be replied with a `JSON` consisting of the following
+A `POST` request to `api/list` with a `timestamp` attribute containing the 
+timestamp of latest article would be replied with a `JSON` consisting of the 
+following :
 
 |    | Key | Explanation |
 |----|-----|-------------|
@@ -10,7 +11,7 @@ would be replied with a `JSON` consisting of the following
 | 3. | `num`		| the total number of entries being sent |
 | 4. | `entries`	| a list of articles |
 
-Each `article` have the following keys
+Each `article` in the `entries` has the following keys :
 
 |    | Key | Explanation |
 |----|-----|-------------|
@@ -21,7 +22,7 @@ Each `article` have the following keys
 | 5. | `timestamp`	| the timestamp of the article being sent |
 | 6. | `title`		| the title of the article |
 
-##### Filtering articles based on their kinds
+##### Filtering articles based on their kind
 
 Optionally, the `POST` request might have an attribute `kinds` consisting of a
 list of article kinds that are needed. This would cause filtering of the results
@@ -66,5 +67,5 @@ consisting of the following
 
 In case of errors, the status code tell you about the error.
 
-In case of client side error, the received JSON consists of `error` attribute
+In case of client side error (improper request format, bad auth), the received JSON consists of `error` attribute
 explaining the error.
