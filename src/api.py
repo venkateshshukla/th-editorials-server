@@ -22,8 +22,21 @@ class List(RequestHandler):
 		try:
 			Auth.check_auth(self.request.headers)
 			self.check_valid()
-			ts = float(self.request.get('timestamp'))
-			logging.debug("Received timestamp : {}".format(ts))
+                        ts1 = self.request.get('timestamp')
+                        try:
+                                ts2 = json.loads(self.request.body)['timestamp']
+                        except ValueError, e:
+                                logging.error("self.request.body is not a json")
+                                ts2 = None
+
+                        logging.debug("ts1=%s", ts1)
+                        logging.debug("ts2=%s", ts2)
+                        if ts1:
+			        ts = float(ts1)
+                        elif ts2 is not None:
+                                ts = float(ts2)
+                        else:
+                                raise InvalidRequestError('Empty or null timestamp')
 
 			kinds = self.request.get('kinds')
 			if kinds:
@@ -79,7 +92,22 @@ class News(RequestHandler):
 			Auth.check_auth(self.request.headers)
 			self.check_valid()
 
-			ky = self.request.get('key')
+                        ky1 = self.request.get('key')
+                        try:
+                                ky2 = json.loads(self.request.body)['key']
+                        except ValueError, e:
+                                logging.error("self.request.body is not a json")
+                                ky2 = None
+
+                        logging.debug("ky1=%s", ky1)
+                        logging.debug("ky2=%s", ky2)
+                        if ky1:
+			        ky = ky1
+                        elif ky2:
+                                ky = ky2
+                        else:
+                                raise InvalidRequestError('Empty or null Key')
+
 			logging.debug('Recieved key : {}'.format(ky))
 			kind, link = Opinion.getKindLink(ky)
 			logging.debug('kind for given key : {}'.format(kind))
