@@ -109,13 +109,18 @@ class News(RequestHandler):
                                 raise InvalidRequestError('Empty or null Key')
 
 			logging.debug('Recieved key : {}'.format(ky))
-			kind, link = Opinion.getKindLink(ky)
+                        info = Opinion.getInfo(ky)
+                        kind = info.get('kind')
+                        link = info.get('link')
 			logging.debug('kind for given key : {}'.format(kind))
 			logging.debug('Link for given key : {}'.format(link))
 			snp = Extract.getHtmlSnippet(kind, link)
 			data['snippet'] = snp
 			data['key'] = ky
 			data['kind'] = kind
+                        data['title'] = info.get('title')
+                        data['date'] = info.get('date')
+                        data['author'] = info.get('author')
 
 		except AuthError:
 			logging.exception('AuthError')

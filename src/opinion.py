@@ -88,6 +88,20 @@ class Opinion(Article):
 		else:
 			raise KeyNotFoundError(ky)
 
+	@staticmethod
+	def getInfo(ky):
+		e = OpinionList.get_by_key(ky)
+		if e:
+			return {
+				'author' : e.author,
+				'date' : e.print_date,
+				'kind' : e.kind,
+				'link' : e.link,
+				'title' : e.title
+				}
+		else:
+			raise KeyNotFoundError(ky)
+
 	def fetch(self):
 		ndb_key = ndb.Key(OpinionList, self.key)
 		entry = ndb_key.get()
