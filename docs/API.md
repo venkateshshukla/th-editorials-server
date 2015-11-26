@@ -63,7 +63,10 @@ consisting of the following
 | 1. | `key`		| The key of the article sent in the request |
 | 2. | `kind`		| The kind of the article |
 | 3. | `snippet`	| The html snippet of the article |
-| 4. | `error` (client error) | The reason for client side error |
+| 4. | `date`		| The publish date of article |
+| 5. | `title`		| The title of the article |
+| 6. | `author`		| Author of the article |
+| 7. | `error` (client error) | The reason for client side error |
 
 In case of errors, the status code tell you about the error.
 
