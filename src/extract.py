@@ -68,6 +68,23 @@ def get_snippet(kind, html):
 	snp = get_article(html)
 	return snp
 
+def get_article_text(html):
+	"""
+	Given the html containing News article, get the news snippet text
+	"""
+	soup = BeautifulSoup(html)
+	out = BeautifulSoup('')
+	at = soup.find('div', {'class' : 'article-text'})
+	clean_copy(at, out, out)
+	return out.get_text().strip()
+
+def get_text(kind, html):
+        """ Given the kind and the html, return its text. """
+	if not html:
+		raise InputError('html page', html, 'Cannot be empty or None')
+        txt = get_article_text(html)
+        return txt
+
 class Extract:
 
 	@staticmethod
@@ -84,3 +101,18 @@ class Extract:
 		html = get_html(url)
 		snippet = get_snippet(kind, html)
 		return snippet
+
+        @staticmethod
+	def getTextSnippet(kind, link):
+		if not kind:
+			raise InputError('kind', kind, 'Cannot be empty or None')
+		if not link:
+			raise InputError('url', url, 'Cannot be empty or None')
+		if kind not in Kind.SUPPORTED:
+			raise UnknownKindError(kind)
+		logging.debug('kind : {}'.format(kind))
+		logging.debug('link : {}'.format(link))
+		url = AppUrl.OP_BASE + kind + link
+		html = get_html(url)
+		text = get_text(kind, html)
+		return text

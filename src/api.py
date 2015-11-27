@@ -114,7 +114,7 @@ class News(RequestHandler):
                         link = info.get('link')
 			logging.debug('kind for given key : {}'.format(kind))
 			logging.debug('Link for given key : {}'.format(link))
-			snp = Extract.getHtmlSnippet(kind, link)
+			snp = Extract.getTextSnippet(kind, link)
 			data['snippet'] = snp
 			data['key'] = ky
 			data['kind'] = kind
