@@ -16,6 +16,9 @@ class List(RequestHandler):
 		if False:
 			raise InvalidRequestError('Reason')
 
+        def get(self):
+               self.post()
+
 	def post(self):
 		self.response.content_type='application/json'
 		data = {}
@@ -84,6 +87,9 @@ class News(RequestHandler):
 	def check_valid(self):
 		if False:
 			raise InvalidRequestError('Reason')
+
+        def get(self):
+                self.post()
 
 	def post(self):
 		self.response.content_type='application/json'
