@@ -1,4 +1,5 @@
 import logging
+import re
 import requests
 
 from bs4 import BeautifulSoup
@@ -74,7 +75,7 @@ def get_article_text(html):
 	"""
 	soup = BeautifulSoup(html)
 	out = BeautifulSoup('')
-	at = soup.find('div', {'class' : 'article-text'})
+	at = soup.find('div', {'id' : re.compile('content-body-.*')})
 	clean_copy(at, out, out)
 	return out.get_text().strip()
 

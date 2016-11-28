@@ -36,7 +36,7 @@ class SampleUrl:
 	SUNDAY_ANCHOR	=	'/fall-in-allocations/article7265269.ece'
 
 class Tags:
-	ACCEPTED = ['a', 'b', 'i', 'p']
+	ACCEPTED = ['a', 'b', 'i', 'p', 'strong', 'small', 'em', 'mark', 'sub', 'sup']
 
 class Time:
 	EXPIRY = 7

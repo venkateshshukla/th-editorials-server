@@ -129,5 +129,54 @@ class CleanCopyTest(unittest.TestCase):
 
 		self.assertEqual(unicode(out), unicode(exp))
 
+                def test_format_2911(self):
+                    html = """
+                    <html>
+                      <head>
+                        <title>Sample Title</title>
+                      </head>
+                      <body>
+                        <div class="class_a">
+                          <p>This is paragraph 1 of class_a.</p>
+                          <a href="http://example.com">This is a link of class_a</a>
+                        </div>
+                        <div class="class_b">
+                          <p>This is paragraph 1 of class_b.</p>
+                          <a href="http://example1.com">This is a link of class_b</a>
+                          <p>This is <b>paragraph 2</b> of <b>class_a</b>.</p>
+                          <a href="http://example2.com">This is a link of <b>class_b</b></a>
+                        </div>
+                        <div class="class_c">
+                          <p>This is paragraph 1 of class_c.<strong>
+                            <a href="http://example1.com">This is a link of class_c</a></strong>
+                          </p>
+                          <p>This is <b>paragraph 2</b> of <b>class_c</b>.
+                            <small><a href="http://example2.com">This is a link of <b>class_c<b></a></small>
+                          </p>
+                          <p>This is <i>paragraph 3</i> of <i>class_c</i>
+                            <em><a href="http://example3.com">This is a link of <i>class_c</i></a></em>
+                          </p>
+                        </div>
+                      </body>
+                    </html>
+                    """
+                    exp = BeautifulSoup(
+                    """
+			<p>This is paragraph 1 of class_a.</p>
+			<a>This is a link of class_a</a>
+			<p>This is paragraph 1 of class_b.</p>
+			<a>This is a link of class_b</a>
+			<p>This is <b>paragraph 2</b> of <b>class_a</b>.</p>
+			<a>This is a link of <b>class_b</b></a>
+			<p>This is paragraph 1 of class_c.<strong><a>This is a link of class_c</a></strong></p>
+			<p>This is <b>paragraph 2</b> of <b>class_c</b>.<small><a>This is a link of <b>class_c<b></a></small></p>
+			<p>This is <i>paragraph 3</i> of <i>class_c</i>.<em><a>This is a link of <i>class_c</i></a></em></p>
+                    """)
+                    inp = BeautifulSoup(html)
+                    out = BeautifulSoup('')
+                    clean_copy(inp, out, out)
+                    self.assertEqual(unicode(out), unicode(exp))
+                    pass
+
 if __name__ == '__main__':
 	unittest.main()
