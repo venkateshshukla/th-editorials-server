@@ -1,6 +1,6 @@
 class AppUrl:
 	"""Class for storing all the URLs used in the application"""
-	BASE = "http://www.thehindu.com/"
+	BASE = "http://www.example.com/"
 	OP_BASE = BASE + "opinion/"
 	OPINION = OP_BASE + "?service=rss"
 	RSS_ARGS = "?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication"
